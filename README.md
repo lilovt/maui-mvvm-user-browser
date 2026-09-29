@@ -67,6 +67,9 @@ The test project links the UI-free source files instead of referencing the MAUI 
 (which multi-targets Windows/Android/iOS). Moving them into a shared class library would be
 the cleaner next step.
 
+## License
+[MIT](LICENSE)
+
 ## Ideas for next steps
 - A `Posts` list per user (the API has `/posts?userId=`)
 - Retry with `Polly` / resilient `HttpClient`
