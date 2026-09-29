@@ -1,4 +1,4 @@
-using UserBrowser.Models;
+using UserBrowser.ViewModels;
 
 namespace UserBrowser.Services;
 
@@ -6,5 +6,5 @@ namespace UserBrowser.Services;
 // so they stay free of UI types and can be unit tested.
 public interface INavigationService
 {
-    Task GoToUserDetailAsync(User user);
+    Task GoToUserDetailAsync(UserItem item);
 }

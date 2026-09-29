@@ -4,29 +4,136 @@
              xmlns:vm="clr-namespace:UserBrowser.ViewModels"
              x:Class="UserBrowser.Views.UserDetailPage"
              x:DataType="vm:UserDetailViewModel"
-             Title="{Binding User.Name}">
+             Style="{StaticResource PageStyle}"
+             Shell.NavBarIsVisible="False"
+             Title="{Binding Item.User.Name}">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="24" Spacing="12">
-            <Label Text="{Binding User.Name}" FontSize="28" FontAttributes="Bold" />
-            <Label Text="{Binding User.Username, StringFormat='@{0}'}" FontSize="16" />
+    <Grid RowDefinitions="Auto,*,Auto">
 
-            <BoxView HeightRequest="1" />
+        <!-- HEADER: the person's color, shaded darker toward the bottom, with a faint circle for depth.
+             It is the same color as their tile in the list, so the two pages read as one story. -->
+        <Grid x:Name="HeroBar" Grid.Row="0" IsClippedToBounds="True"
+              BackgroundColor="{Binding Item.AvatarColor}"
+              RowDefinitions="Auto,Auto" Padding="20,16,20,28" RowSpacing="18">
 
-            <Label Text="Email" FontAttributes="Bold" />
-            <Label Text="{Binding User.Email}" />
+            <Grid Grid.RowSpan="2" InputTransparent="True">
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#00000000" Offset="0.0" />
+                        <GradientStop Color="#59000000" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+            <Border WidthRequest="200" HeightRequest="200" StrokeThickness="0" StrokeShape="Ellipse"
+                    BackgroundColor="#14FFFFFF" Grid.RowSpan="2" InputTransparent="True"
+                    HorizontalOptions="End" VerticalOptions="Start" Margin="0,-90,-60,0" />
 
-            <Label Text="Phone" FontAttributes="Bold" />
-            <Label Text="{Binding User.Phone}" />
+            <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                <Button Text="‹ People" HorizontalOptions="Start" TextColor="White"
+                        BackgroundColor="Transparent" Padding="0" FontSize="16"
+                        Command="{Binding GoBackCommand}" />
+                <Label Grid.Column="1" Text="{Binding Item.StarGlyph}" FontSize="28" Padding="8,0"
+                       TextColor="White" VerticalOptions="Center">
+                    <Label.Triggers>
+                        <DataTrigger TargetType="Label" Binding="{Binding Item.IsFavorite}" Value="True">
+                            <Setter Property="TextColor" Value="{StaticResource Gold}" />
+                        </DataTrigger>
+                    </Label.Triggers>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
 
-            <Label Text="Website" FontAttributes="Bold" />
-            <Label Text="{Binding User.Website}" />
+            <HorizontalStackLayout Grid.Row="1" Spacing="18">
+                <Border x:Name="AvatarTile" WidthRequest="84" HeightRequest="84" StrokeThickness="0"
+                        StrokeShape="RoundRectangle 24" BackgroundColor="#33FFFFFF">
+                    <Label Text="{Binding Item.Initials}" TextColor="White"
+                           FontFamily="OpenSansSemibold" FontSize="34"
+                           HorizontalOptions="Center" VerticalOptions="Center" />
+                </Border>
+                <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                    <Label Text="{Binding Item.User.Name}" TextColor="White"
+                           FontFamily="OpenSansSemibold" FontSize="24" />
+                    <Label Text="{Binding Item.User.Username, StringFormat='@{0}'}"
+                           TextColor="#CCFFFFFF" FontSize="15" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </Grid>
 
-            <Label Text="Company" FontAttributes="Bold" />
-            <Label Text="{Binding User.CompanyName}" />
+        <ScrollView x:Name="DetailScroll" Grid.Row="1">
+            <VerticalStackLayout Padding="20,22,20,32" Spacing="16">
 
-            <Label Text="City" FontAttributes="Bold" />
-            <Label Text="{Binding User.City}" />
-        </VerticalStackLayout>
-    </ScrollView>
+                <Label Text="Tap any detail to copy it." Style="{StaticResource MutedLabel}" />
+
+                <!-- Details: each row copies its value when tapped -->
+                <VerticalStackLayout Spacing="2">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CopyCommand}" CommandParameter="{Binding Item.User.Email}" />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label Text="Email" Style="{StaticResource MutedLabel}" />
+                    <Label Text="{Binding Item.User.Email}" FontSize="16" Style="{StaticResource BodyLabel}" />
+                </VerticalStackLayout>
+
+                <BoxView Style="{StaticResource Divider}" />
+
+                <VerticalStackLayout Spacing="2">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CopyCommand}" CommandParameter="{Binding Item.User.Phone}" />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label Text="Phone" Style="{StaticResource MutedLabel}" />
+                    <Label Text="{Binding Item.User.Phone}" FontSize="16" Style="{StaticResource BodyLabel}" />
+                </VerticalStackLayout>
+
+                <BoxView Style="{StaticResource Divider}" />
+
+                <VerticalStackLayout Spacing="2">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CopyCommand}" CommandParameter="{Binding Item.User.Website}" />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label Text="Website" Style="{StaticResource MutedLabel}" />
+                    <Label Text="{Binding Item.User.Website}" FontSize="16" Style="{StaticResource BodyLabel}" />
+                </VerticalStackLayout>
+
+                <BoxView Style="{StaticResource Divider}" />
+
+                <VerticalStackLayout Spacing="2">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CopyCommand}" CommandParameter="{Binding Item.User.CompanyName}" />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label Text="Company" Style="{StaticResource MutedLabel}" />
+                    <Label Text="{Binding Item.User.CompanyName}" FontSize="16" Style="{StaticResource BodyLabel}" />
+                </VerticalStackLayout>
+
+                <BoxView Style="{StaticResource Divider}" />
+
+                <VerticalStackLayout Spacing="2">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CopyCommand}" CommandParameter="{Binding Item.User.City}" />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label Text="City" Style="{StaticResource MutedLabel}" />
+                    <Label Text="{Binding Item.User.City}" FontSize="16" Style="{StaticResource BodyLabel}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Confirmation that floats above the content while a message is set -->
+        <Border Grid.Row="1" IsVisible="{Binding HasMessage}"
+                VerticalOptions="End" HorizontalOptions="Center" Margin="20,0,20,20"
+                Padding="18,12" StrokeThickness="0" StrokeShape="RoundRectangle 22"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Ink}, Dark={StaticResource InkDark}}">
+            <Label Text="{Binding Message}" FontSize="14"
+                   TextColor="{AppThemeBinding Light={StaticResource Paper}, Dark={StaticResource PaperDark}}" />
+        </Border>
+
+        <!-- FOOTER: the actions, on the same gradient bar as the list page -->
+        <Grid x:Name="ActionBar" Grid.Row="2" ColumnDefinitions="*,Auto,*,Auto,*" HeightRequest="64"
+              Background="{StaticResource FooterGradient}">
+            <Button Grid.Column="0" Text="Email" Style="{StaticResource BarButton}" VerticalOptions="Center" Command="{Binding EmailCommand}" />
+            <BoxView Grid.Column="1" WidthRequest="1" Margin="0,18" Color="#33FFFFFF" />
+            <Button Grid.Column="2" Text="Call" Style="{StaticResource BarButton}" VerticalOptions="Center" Command="{Binding CallCommand}" />
+            <BoxView Grid.Column="3" WidthRequest="1" Margin="0,18" Color="#33FFFFFF" />
+            <Button Grid.Column="4" Text="Website" Style="{StaticResource BarButton}" VerticalOptions="Center" Command="{Binding OpenWebsiteCommand}" />
+        </Grid>
+    </Grid>
 </ContentPage>

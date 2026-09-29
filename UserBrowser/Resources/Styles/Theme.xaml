@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Palette: light values, then their dark-mode counterparts. -->
+    <Color x:Key="Paper">#F4F5F7</Color>
+    <Color x:Key="PaperDark">#12151C</Color>
+    <Color x:Key="Ink">#1C2230</Color>
+    <Color x:Key="InkDark">#EEF0F4</Color>
+    <Color x:Key="Muted">#6B7280</Color>
+    <Color x:Key="MutedDark">#9AA3B2</Color>
+    <Color x:Key="Line">#E3E5EA</Color>
+    <Color x:Key="LineDark">#2A3040</Color>
+    <Color x:Key="Accent">#0E7C86</Color>
+    <Color x:Key="AccentDark">#4FB7C0</Color>
+    <Color x:Key="Gold">#F2A900</Color>
+    <Color x:Key="Danger">#B42318</Color>
+    <Color x:Key="DangerDark">#FDA29B</Color>
+
+    <!-- Header/footer backgrounds. Deep tones so white text reads in both light and dark mode.
+         The footer runs the opposite diagonal so the two bars feel related but not identical. -->
+    <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#0F8A93" Offset="0.0" />
+        <GradientStop Color="#16335A" Offset="0.65" />
+        <GradientStop Color="#1B2140" Offset="1.0" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="FooterGradient" StartPoint="1,0" EndPoint="0,1">
+        <GradientStop Color="#1B2140" Offset="0.0" />
+        <GradientStop Color="#16335A" Offset="0.5" />
+        <GradientStop Color="#0F8A93" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Page background follows the system light/dark setting. -->
+    <Style x:Key="PageStyle" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Paper}, Dark={StaticResource PaperDark}}" />
+    </Style>
+
+    <!-- Type scale -->
+    <Style x:Key="TitleLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Ink}, Dark={StaticResource InkDark}}" />
+    </Style>
+    <Style x:Key="NameLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Ink}, Dark={StaticResource InkDark}}" />
+    </Style>
+    <Style x:Key="BodyLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Ink}, Dark={StaticResource InkDark}}" />
+    </Style>
+    <Style x:Key="MutedLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Muted}, Dark={StaticResource MutedDark}}" />
+    </Style>
+    <Style x:Key="DangerLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Danger}, Dark={StaticResource DangerDark}}" />
+    </Style>
+
+    <!-- Hairline used between rows -->
+    <Style x:Key="Divider" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="1" />
+        <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Line}, Dark={StaticResource LineDark}}" />
+    </Style>
+
+    <!-- Quiet text button (retry) -->
+    <Style x:Key="TextButton" TargetType="Button">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Accent}, Dark={StaticResource AccentDark}}" />
+    </Style>
+
+    <!-- Text button that sits on a gradient bar (header Refresh, footer actions) -->
+    <Style x:Key="BarButton" TargetType="Button">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="Padding" Value="12,6" />
+    </Style>
+</ResourceDictionary>

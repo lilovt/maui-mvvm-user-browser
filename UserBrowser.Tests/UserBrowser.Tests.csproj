@@ -26,8 +26,11 @@
     <Compile Include="..\UserBrowser\Models\*.cs" Link="Linked\Models\%(Filename)%(Extension)" />
     <Compile Include="..\UserBrowser\Services\IApiService.cs" Link="Linked\Services\IApiService.cs" />
     <Compile Include="..\UserBrowser\Services\INavigationService.cs" Link="Linked\Services\INavigationService.cs" />
-    <!-- Only UsersViewModel: UserDetailViewModel uses MAUI's [QueryProperty]. -->
+    <Compile Include="..\UserBrowser\Services\IFavoritesStore.cs" Link="Linked\Services\IFavoritesStore.cs" />
+    <!-- Not UserDetailViewModel: it uses MAUI types ([QueryProperty], Clipboard, Launcher). -->
     <Compile Include="..\UserBrowser\ViewModels\UsersViewModel.cs" Link="Linked\ViewModels\UsersViewModel.cs" />
+    <Compile Include="..\UserBrowser\ViewModels\UserItem.cs" Link="Linked\ViewModels\UserItem.cs" />
+    <Compile Include="..\UserBrowser\ViewModels\UserGroup.cs" Link="Linked\ViewModels\UserGroup.cs" />
   </ItemGroup>
 
 </Project>

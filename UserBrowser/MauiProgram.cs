@@ -26,6 +26,7 @@ public static class MauiProgram
 		});
 		builder.Services.AddSingleton<IApiService, ApiService>();
 		builder.Services.AddSingleton<INavigationService, ShellNavigationService>();
+		builder.Services.AddSingleton<IFavoritesStore, PreferencesFavoritesStore>();
 		builder.Services.AddTransient<UsersViewModel>();
 		builder.Services.AddTransient<UsersPage>();
 		builder.Services.AddTransient<UserDetailViewModel>();

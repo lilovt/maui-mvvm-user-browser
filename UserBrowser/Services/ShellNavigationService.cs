@@ -1,4 +1,4 @@
-using UserBrowser.Models;
+using UserBrowser.ViewModels;
 
 namespace UserBrowser.Services;
 
@@ -7,7 +7,8 @@ public class ShellNavigationService : INavigationService
 {
     public const string DetailRoute = "userdetail";
 
-    public Task GoToUserDetailAsync(User user) =>
-        // Shell passes the object to the target ViewModel via its [QueryProperty].
-        Shell.Current.GoToAsync(DetailRoute, new Dictionary<string, object> { ["User"] = user });
+    public Task GoToUserDetailAsync(UserItem item) =>
+        // Shell hands the object to the target ViewModel through its [QueryProperty].
+        // Passing the same UserItem keeps the favorite star in sync between both pages.
+        Shell.Current.GoToAsync(DetailRoute, new Dictionary<string, object> { ["Item"] = item });
 }

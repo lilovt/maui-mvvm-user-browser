@@ -1,8 +1,26 @@
 # UserBrowser: .NET MAUI + MVVM sample
 
-A small .NET MAUI app that loads users from a public REST API (JSONPlaceholder), shows them in a
-pull-to-refresh list, and opens a detail page on tap. Built to practice MVVM, data binding,
-dependency injection, Shell navigation and unit testing.
+A small .NET MAUI people directory that loads users from a public REST API (JSONPlaceholder).
+Built to practice MVVM, data binding, dependency injection, Shell navigation and unit testing.
+
+<p align="center">
+  <img src="docs/screenshots/home.png" alt="People list grouped by letter, with gradient header and footer tabs" width="260">
+  &nbsp;
+  <img src="docs/screenshots/search.png" alt="Live search filtering the list to two people" width="260">
+  &nbsp;
+  <img src="docs/screenshots/user-detail.png" alt="Detail page with a colored header and an action bar" width="260">
+</p>
+<p align="center"><em>List, live search, and detail page (Windows)</em></p>
+
+## Features
+- Gradient header and a bottom tab bar (People / Favorites) with a sliding highlight
+- List grouped by first letter, with a colored initials tile per person
+- Live search across name, company, email and city
+- Favorites: star a person, filter to favorites, and they are remembered between launches
+- Detail page with email, call and website actions, and tap-to-copy on each detail
+- Loading, empty, no-match and error states that say what to do next
+- Light and dark themes that follow the system setting
+- Pull-to-refresh, plus a Refresh button for mouse users
 
 ## Stack
 - .NET 10, .NET MAUI (built and run on the Windows target)
@@ -18,8 +36,8 @@ Views (XAML)  <-- binding -->  ViewModels  -->  Services (interfaces)  -->  REST
 | Folder | Contents |
 |---|---|
 | `Models/` | `User`, `Company`, `Address` records |
-| `Services/` | `IApiService`/`ApiService` (HttpClient), `INavigationService`/`ShellNavigationService` |
-| `ViewModels/` | `UsersViewModel` (list, loading, error state), `UserDetailViewModel` |
+| `Services/` | `IApiService`/`ApiService` (HttpClient), `INavigationService`/`ShellNavigationService`, `IFavoritesStore`/`PreferencesFavoritesStore` |
+| `ViewModels/` | `UsersViewModel` (search, filter, grouping, loading and error state), `UserItem` (a user plus initials, color, favorite), `UserGroup`, `UserDetailViewModel` |
 | `Views/` | `UsersPage`, `UserDetailPage` (XAML, minimal code-behind) |
 
 Key points:
@@ -41,15 +59,16 @@ Requires the .NET 10 SDK and the MAUI workload (`dotnet workload install maui`).
 cd UserBrowser.Tests
 dotnet test
 ```
-9 tests cover loading, busy state, error handling, reload behavior, property-change
-notification and navigation. They use hand-written fakes rather than a mocking library.
+24 tests cover loading, busy and error states, grouping, search, favorites (including
+persistence), navigation, and the initials/color logic. They use hand-written fakes
+rather than a mocking library.
 
 The test project links the UI-free source files instead of referencing the MAUI project
 (which multi-targets Windows/Android/iOS). Moving them into a shared class library would be
 the cleaner next step.
 
 ## Ideas for next steps
-- Search/filter box, and a `Posts` list per user
+- A `Posts` list per user (the API has `/posts?userId=`)
 - Retry with `Polly` / resilient `HttpClient`
 - Android emulator run, plus `OnPlatform` layout tweaks
 - CI build with GitHub Actions
