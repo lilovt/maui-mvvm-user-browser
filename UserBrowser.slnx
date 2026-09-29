@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="UserBrowser.Tests/UserBrowser.Tests.csproj" />
+  <Project Path="UserBrowser/UserBrowser.csproj" />
+</Solution>

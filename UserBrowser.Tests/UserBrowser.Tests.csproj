@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <!-- The MAUI app multi-targets Windows/Android/iOS, so a plain net10.0 test project
+       can't reference it. Instead we link the UI-free source files (no MAUI types in them).
+       A cleaner long-term option: move these into a shared class library. -->
+  <ItemGroup>
+    <Compile Include="..\UserBrowser\Models\*.cs" Link="Linked\Models\%(Filename)%(Extension)" />
+    <Compile Include="..\UserBrowser\Services\IApiService.cs" Link="Linked\Services\IApiService.cs" />
+    <Compile Include="..\UserBrowser\Services\INavigationService.cs" Link="Linked\Services\INavigationService.cs" />
+    <!-- Only UsersViewModel: UserDetailViewModel uses MAUI's [QueryProperty]. -->
+    <Compile Include="..\UserBrowser\ViewModels\UsersViewModel.cs" Link="Linked\ViewModels\UsersViewModel.cs" />
+  </ItemGroup>
+
+</Project>

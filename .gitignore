@@ -1,0 +1,19 @@
+# Build outputs
+bin/
+obj/
+
+# Visual Studio / user-specific
+.vs/
+*.user
+*.suo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Private interview-prep notes (not part of the public project)
+PLAN.md
+MAUI-MVVM-CheatSheet.md
+
+# Crash dumps
+*.stackdump

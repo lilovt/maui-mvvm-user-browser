@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:UserBrowser.Models"
+             xmlns:vm="clr-namespace:UserBrowser.ViewModels"
+             x:Class="UserBrowser.Views.UsersPage"
+             x:DataType="vm:UsersViewModel"
+             Title="Users">
+
+    <!-- VIEW: layout and bindings only. x:DataType turns on compiled bindings. -->
+    <Grid RowDefinitions="Auto,*" Padding="16" RowSpacing="8">
+
+        <!-- Row 0: error banner, only visible when HasError is true -->
+        <Label Grid.Row="0"
+               Text="{Binding ErrorMessage}"
+               IsVisible="{Binding HasError}"
+               TextColor="{StaticResource Primary}" />
+
+        <!-- Row 1: pull-to-refresh wrapper around the list -->
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding LoadCommand}">
+
+            <CollectionView ItemsSource="{Binding Users}">
+                <CollectionView.ItemTemplate>
+                    <!-- Inside a DataTemplate the binding source is one User -->
+                    <DataTemplate x:DataType="models:User">
+                        <Border Padding="12" Margin="0,0,0,8" StrokeShape="RoundRectangle 8">
+                            <VerticalStackLayout Spacing="2">
+                                <!-- Tap: run the PARENT ViewModel's SelectUserCommand, passing this User.
+                                     Inside the template the source is a User, so we climb to the page's VM. -->
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UsersViewModel}}, Path=SelectUserCommand, x:DataType=vm:UsersViewModel}"
+                                        CommandParameter="{Binding .}" />
+                                </VerticalStackLayout.GestureRecognizers>
+                                <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" />
+                                <Label Text="{Binding Email}" />
+                                <Label Text="{Binding CompanyName}" FontSize="12" />
+                                <Label Text="{Binding City}" FontSize="12" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>
